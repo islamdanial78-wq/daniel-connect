@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#ffffff"><link rel="manifest" href="manifest.json">
+<title>Daniel Connect</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#fff;color:#16181c;font-family:Arial,"Noto Sans Bengali",sans-serif}
+button{font:inherit;cursor:pointer}header{height:78px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:#fff;position:sticky;top:0;z-index:5}
+.logo{font-size:30px;font-weight:800;color:#1877f2;letter-spacing:-1px}.headright{display:flex;gap:12px}.round{width:43px;height:43px;border-radius:50%;border:0;background:#eef0f4;font-size:25px;font-weight:700;color:#111}
+.tabs{height:57px;display:flex;justify-content:space-around;align-items:center;border-bottom:1px solid #d4d7dc;background:#fff;position:sticky;top:78px;z-index:5}
+.tabs button{border:0;background:white;color:#666;font-size:25px;position:relative;padding:8px 10px}.tabs button.active{color:#1877f2}.count{position:absolute;top:-2px;right:-2px;background:#e51e3d;color:white;border-radius:15px;font-size:11px;font-weight:bold;padding:3px 6px}
+main{max-width:700px;margin:auto;padding-bottom:75px}.composer{display:flex;align-items:center;gap:12px;padding:16px 15px 14px;border-bottom:5px solid #e3e5e8}
+.avatar{width:53px;height:53px;border-radius:50%;background:#e1e4e8;color:#70757c;display:grid;place-items:center;font-size:30px;flex:none}
+.prompt{height:54px;border-radius:30px;background:#f0f2f5;border:0;text-align:left;padding:0 18px;flex:1;font-size:17px;color:#15171a}
+.photo{border:0;background:white;color:#35ad68;font-size:26px;padding:5px}
+.stories{display:flex;gap:12px;padding:14px 14px 15px;overflow-x:auto;border-bottom:5px solid #e3e5e8;scrollbar-width:none}
+.story{height:220px;width:150px;flex:0 0 150px;border-radius:19px;overflow:hidden;position:relative;background:#e5e7eb;border:1px solid #e0e2e6}
+.story.create .art{height:143px;background:#e5e7eb;display:grid;place-items:center;color:#737a81;font-size:100px}
+.story.create .plus{position:absolute;top:115px;left:50%;transform:translateX(-50%);width:45px;height:45px;border:3px solid white;border-radius:50%;background:#1877f2;color:white;font-size:32px;line-height:38px;text-align:center}
+.story .caption{height:77px;display:flex;align-items:end;padding:0 10px 12px;font-size:15px;font-weight:700;background:#fff}
+.story.find{background:#1877f2;color:#fff}.findart{height:164px;display:grid;place-items:center;font-size:68px;color:#fff;background:radial-gradient(circle at 30% 25%,#fa9fbd 0 16%,transparent 17%),radial-gradient(circle at 70% 35%,#b9e3ff 0 15%,transparent 16%),radial-gradient(circle at 45% 75%,#ffd57d 0 18%,transparent 19%),#1877f2}
+.story.find .caption{height:56px;background:#1877f2;color:#fff;font-size:17px}
+.post{background:#fff;margin:0 0 12px}.posthead{display:flex;align-items:flex-start;gap:10px;padding:16px 16px 7px}
+.postavatar{width:53px;height:53px;border-radius:50%;background:#243a53;color:#fff;display:grid;place-items:center;font-weight:bold;font-size:20px;flex:none;border:3px solid #1877f2}
+.postmeta{flex:1;font-size:16px;line-height:1.35}.postmeta strong{font-size:17px}.verified{display:inline-grid;place-items:center;vertical-align:middle;margin-left:4px;width:17px;height:17px;border-radius:50%;background:#1877f2;color:#fff;font-size:12px;font-weight:900;line-height:17px}.postsub{font-size:12px;color:#656b73;margin-top:4px}.dots{font-size:24px;color:#656b73;letter-spacing:2px}
+.posttext{padding:0 16px 12px;font-size:17px;line-height:1.5}
+.postmedia{height:300px;background:#111;color:#fff;display:grid;place-items:center;text-align:center;padding:24px;font-size:26px;line-height:1.5}
+.poststats{padding:9px 15px;color:#656b73;font-size:13px;border-bottom:1px solid #e1e3e6;display:flex;justify-content:space-between}
+.postactions{display:flex;justify-content:space-around;padding:5px 8px;border-bottom:6px solid #e4e6e9}
+.postactions button{border:0;background:white;color:#656b73;font-size:14px;font-weight:700;padding:10px 5px;flex:1}
+.modal{display:none;position:fixed;inset:0;background:#0008;z-index:20;align-items:center;justify-content:center;padding:20px}.modal.open{display:flex}.dialog{background:white;border-radius:16px;padding:18px;width:min(440px,100%)}textarea{width:100%;min-height:100px;border:1px solid #ccd0d5;border-radius:12px;padding:12px;font:inherit}.primary{background:#1877f2;color:#fff;border:0;border-radius:10px;padding:11px 18px;font-weight:bold;margin-top:10px}
+.notice{padding:10px 14px;background:#fff6db;color:#72561b;font-size:12px;line-height:1.5}
+
+#danielLoginBox{max-width:460px;margin:28px auto;padding:22px;border:1px solid #d7dce3;border-radius:16px;background:#fff;box-shadow:0 8px 28px #17255412}
+#danielLoginBox h2{margin:0 0 8px;color:#1877f2}
+#danielLoginBox p{color:#5b6470;line-height:1.5}
+#danielLoginBox input{display:block;width:100%;padding:13px 14px;margin:12px 0;border:1px solid #cbd5e1;border-radius:9px;font:inherit}
+#danielLoginBtn{width:100%;padding:13px;border:0;border-radius:9px;background:#1877f2;color:#fff;font-weight:700;font-size:16px}
+#danielLoginBtn:disabled{opacity:.6;cursor:wait}
+#danielLoginMsg{min-height:22px;margin:12px 0 0;font-size:13px;overflow-wrap:anywhere;color:#334155}
+#danielApp{display:none}
+#danielAccountBar{max-width:700px;margin:auto;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;background:#eef4ff;color:#183b70;font-size:13px}
+#danielLogoutBtn{padding:8px 13px;border:0;border-radius:7px;background:#dc2626;color:#fff;font-weight:700}
+@media(max-width:480px){#danielLoginBox{margin:18px 12px;padding:18px}}
+</style></head>
+
+<body>
+<section id="danielLoginBox" aria-labelledby="loginTitle">
+  <h2 id="loginTitle">Daniel Connect</h2>
+  <p>Email ও Password দিয়ে আপনার অ্যাকাউন্টে প্রবেশ করুন।</p>
+  <form id="danielLoginForm">
+    <input id="danielEmail" type="email" placeholder="Email" autocomplete="username" required />
+    <input id="danielPassword" type="password" placeholder="Password" autocomplete="current-password" required />
+    <button id="danielLoginBtn" type="submit">Login</button>
+  </form>
+  <p id="danielLoginMsg" role="status" aria-live="polite"></p>
+</section>
+
+<div id="danielApp">
+  <div id="danielAccountBar">
+    <span id="danielStatusMsg">লগইন করা হয়েছে</span>
+    <button id="danielLogoutBtn" type="button">Logout</button>
+  </div>
+
+<header><div class="logo">Daniel Connect</div><div class="headright"><button class="round" onclick="openComposer()">＋</button><button class="round" onclick="alert('Search will be added')">⌕</button><button class="round" onclick="alert('Profile menu will be added')">◉</button></div></header>
+<nav class="tabs">
+<button class="active" onclick="tab(this,'Home')">⌂</button><button onclick="tab(this,'Friends')">♧</button><button onclick="tab(this,'Messenger')">➤<span class="count">2</span></button><button onclick="tab(this,'Videos')">▣<span class="count">15+</span></button><button onclick="tab(this,'Notifications')">♧</button><button onclick="tab(this,'Marketplace')">▤<span class="count">11</span></button>
+</nav>
+<main>
+<section class="composer"><div class="avatar">●</div><button class="prompt" onclick="openComposer()">What's on your mind?</button><button class="photo" onclick="openComposer()">▧<br><small style="font-size:11px">Photo</small></button></section>
+<section class="stories">
+<div class="story create"><div class="art">●</div><div class="plus">+</div><div class="caption">Create story</div></div>
+<div class="story find"><div class="findart">👥</div><div class="caption">Find friends</div></div>
+<div class="story find"><div class="findart">✦</div><div class="caption">Your story</div></div>
+</section>
+<div class="notice">ডেমো প্রিভিউ: প্রথম নিবন্ধিত মালিকের নামের পাশে নীল ভেরিফিকেশন টিক দেখানো হচ্ছে। অন্য ব্যবহারকারীরা স্বয়ংক্রিয়ভাবে এই টিক পাবেন না। প্রকৃত অনুমতি সার্ভারে নিরাপদভাবে সেট করতে হবে।</div>
+<div id="feed">
+<article class="post">
+<div class="posthead"><div class="postavatar">S</div><div class="postmeta"><strong>DanielOfficial <span class="verified" aria-label="Verified owner">✓</span></strong><div>Daniel Connect Owner · feeling connected</div><div class="postsub">3h · 🌐 Public</div></div><div class="dots">•••　×</div></div>
+<div class="posttext">বন্ধুদের সঙ্গে যুক্ত হও, তোমার মুহূর্ত শেয়ার করো এবং Daniel Connect কমিউনিটির সঙ্গে যোগাযোগ রাখো।</div>
+<div class="postmedia">তোমার কমিউনিটি<br>তোমার যোগাযোগ 💙</div>
+<div class="poststats"><span id="likeCount">♡ 0 likes</span><span id="commentCount">0 comments</span></div>
+<div class="postactions"><button onclick="like()">♡ Like</button><button onclick="comment()">▢ Comment</button><button onclick="share()">↗ Share</button></div>
+</article>
+</div>
+</main>
+<div class="modal" id="modal"><div class="dialog"><h3>Create post</h3><textarea id="text" placeholder="What's on your mind?"></textarea><button class="primary" onclick="publish()">Post</button><button onclick="closeComposer()" style="float:right;border:0;background:#eee;padding:11px;border-radius:9px;margin-top:10px">Cancel</button></div></div>
+<script>
+let likes=0,comments=0;
+function openComposer(){document.getElementById('modal').classList.add('open')}
+function closeComposer(){document.getElementById('modal').classList.remove('open')}
+function publish(){let t=document.getElementById('text').value.trim();if(!t)return;let a=document.createElement('article');a.className='post';let h=document.createElement('div');h.className='posthead';h.innerHTML='<div class="postavatar">D</div><div class="postmeta"><strong>You</strong><div class="postsub">Just now · 🌐 Public</div></div><div class="dots">•••</div>';let p=document.createElement('div');p.className='posttext';p.textContent=t;a.append(h,p);document.getElementById('feed').prepend(a);document.getElementById('text').value='';closeComposer()}
+function like(){likes++;document.getElementById('likeCount').textContent='♥ '+likes+' likes'}
+function comment(){let c=prompt('Write a comment');if(c){comments++;document.getElementById('commentCount').textContent=comments+' comments'}}
+function share(){if(navigator.share)navigator.share({title:'Daniel Connect',text:'Join Daniel Connect'}).catch(()=>{});else alert('Share from your device menu')}
+function tab(btn,name){document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('active'));btn.classList.add('active');if(name!=='Home')alert(name+' section will be developed in a later update.')}
+</script>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import {
+    getAuth,
+    signInWithEmailAndPassword,
+    onAuthStateChanged,
+    signOut
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  // Configuration supplied for the Daniel Connect Firebase project.
+  // IMPORTANT: Firebase Console > Project settings > Your apps এ Web app নিবন্ধন করে
+  // appId-তে সেই Web App ID বসান। Android App ID হলে Web login configuration সঠিক নাও হতে পারে।
+  const firebaseConfig = {
+    apiKey: "AIzaSyArIMQh4jUhYGzkvWpwBRFzDnbqaO_91Jw",
+    authDomain: "daniel-connect-b6e47.firebaseapp.com",
+    projectId: "daniel-connect-b6e47",
+    storageBucket: "daniel-connect-b6e47.firebasestorage.app",
+    messagingSenderId: "951729215657",
+    appId: "1:951729215657:web:e8083bc10e4cf90c37f1b8",
+    measurementId: "G-VNV8B9B626"
+  };
+
+  const loginBox = document.getElementById("danielLoginBox");
+  const appBox = document.getElementById("danielApp");
+  const loginForm = document.getElementById("danielLoginForm");
+  const emailInput = document.getElementById("danielEmail");
+  const passwordInput = document.getElementById("danielPassword");
+  const loginBtn = document.getElementById("danielLoginBtn");
+  const loginMsg = document.getElementById("danielLoginMsg");
+  const statusMsg = document.getElementById("danielStatusMsg");
+  const logoutBtn = document.getElementById("danielLogoutBtn");
+
+  function showLogin(message = "") {
+    loginBox.style.display = "block";
+    appBox.style.display = "none";
+    loginMsg.textContent = message;
+  }
+
+  function showApp(message) {
+    loginBox.style.display = "none";
+    appBox.style.display = "block";
+    statusMsg.textContent = message;
+  }
+
+  let auth;
+  let db;
+
+  try {
+    const firebaseApp = initializeApp(firebaseConfig);
+    auth = getAuth(firebaseApp);
+    db = getFirestore(firebaseApp);
+
+    loginForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
+
+      if (!email || !password) {
+        loginMsg.textContent = "Email ও Password লিখুন।";
+        return;
+      }
+
+      loginBtn.disabled = true;
+      loginBtn.textContent = "লগইন হচ্ছে...";
+      loginMsg.textContent = "Firebase থেকে লগইন যাচাই করা হচ্ছে...";
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        // onAuthStateChanged authenticated state and opens the app.
+      } catch (error) {
+        const messages = {
+          "auth/invalid-email": "ইমেইল ঠিকানাটি সঠিক নয়।",
+          "auth/user-not-found": "এই ইমেইলে কোনো অ্যাকাউন্ট পাওয়া যায়নি।",
+          "auth/wrong-password": "পাসওয়ার্ড সঠিক নয়।",
+          "auth/invalid-credential": "ইমেইল অথবা পাসওয়ার্ড সঠিক নয়।",
+          "auth/too-many-requests": "অনেকবার চেষ্টা করা হয়েছে। কিছুক্ষণ পরে আবার চেষ্টা করুন।",
+          "auth/network-request-failed": "ইন্টারনেট সংযোগ পরীক্ষা করে আবার চেষ্টা করুন।",
+          "auth/operation-not-allowed": "Firebase Console-এ Email/Password sign-in চালু করুন।",
+          "auth/unauthorized-domain": "এই ওয়েবসাইটের domain Firebase Authentication-এর Authorized domains-এ যোগ করুন।",
+          "auth/api-key-not-valid": "Firebase API key সঠিক নয়। Web app configuration পরীক্ষা করুন।"
+        };
+        loginMsg.textContent = messages[error.code] || ("লগইন ব্যর্থ: " + (error.message || "অজানা সমস্যা"));
+      } finally {
+        loginBtn.disabled = false;
+        loginBtn.textContent = "Login";
+      }
+    });
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        showLogin(loginMsg.textContent);
+        return;
+      }
+
+      let roleMessage = "লগইন সফল হয়েছে — সাধারণ ব্যবহারকারী।";
+      try {
+        const adminDoc = await getDoc(doc(db, "config", "admin"));
+        const ownerUid = adminDoc.exists() ? adminDoc.data().ownerUid : null;
+        if (ownerUid && user.uid === ownerUid) {
+          roleMessage = "স্বাগতম! Owner হিসেবে লগইন সফল হয়েছে।";
+        }
+      } catch (error) {
+        // Authentication remains successful even if Firestore role lookup is blocked.
+        roleMessage = "লগইন সফল হয়েছে। Owner যাচাই করা যায়নি (Firestore Rules পরীক্ষা করুন)।";
+      }
+      showApp(roleMessage);
+      passwordInput.value = "";
+    });
+
+    logoutBtn.addEventListener("click", async () => {
+      logoutBtn.disabled = true;
+      try {
+        await signOut(auth);
+        passwordInput.value = "";
+        showLogin("লগআউট সম্পন্ন হয়েছে।");
+      } catch (error) {
+        statusMsg.textContent = "লগআউট করা যায়নি: " + error.message;
+      } finally {
+        logoutBtn.disabled = false;
+      }
+    });
+  } catch (error) {
+    showLogin("Firebase শুরু করা যায়নি: " + error.message);
+    loginBtn.disabled = true;
+  }
+</script>
+
+</body></html>
